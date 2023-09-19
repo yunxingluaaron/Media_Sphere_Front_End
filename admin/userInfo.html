@@ -1,0 +1,269 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+	<meta name="viewport" content="width=device-width, initial-scale=1.0,maximum-scale=1.0, user-scalable=0">
+
+	<link rel="stylesheet" href="css/center.css">
+	<link rel="stylesheet" href="css/menu.css">
+	<link rel="stylesheet" href="css/accountInfo.css">
+	<link rel="stylesheet" href="libs/city-picker/dist/css/city-picker.css">
+
+	<style type="text/css">
+	</style>
+
+	<link rel="shortcut icon" href="img/mu-toutiao.ico" />
+
+	<title>User Info | Comment Management</title>
+</head>
+
+<body>
+	<div id="mainPage" class="mybody">
+		<!-- 顶部白色头 -->
+		<div id="whiteHeader" class="white-header">
+			<div class="head_wrapper" @click="goIndex()">
+				<img src="./img/imooc-news-logo.png" class="center-logo"/>
+
+				<div class="right-me-info">
+					<!-- <img src="./img/face1.png" class="me-face"/> -->
+					<span class="me-nickname">{{adminUserLogin.adminName}}</span>
+					<span class="sep-line">|</span>
+					<span class="logout" @click="doLogout">Log out</span>
+				</div>
+			</div>
+		</div>
+
+		<!-- 页面容器 -->
+		<div class="container">
+
+			<div id="all-menus" class="all-menus">
+				<ul class="menu-list shadow">
+					<li class="">
+						<div class="menu-title-wrapper">
+							<img src="img/admin-ico.png" class="word-ico"/>
+							<div class="menu-title">Admin Menu</div>
+						</div>
+						<ul style="margin-top: 5px;">
+							<li class="menu-item"><a href="contentReview.html" class="menu-item-default">Content Review</a></li>
+							<li class="menu-item"><a href="userList.html" class="menu-item-default">User Management</a></li>
+							<li class="menu-item"><a href="categoryMng.html" class="menu-item-default">Article Categories</a></li>
+							<!-- <li class="menu-item"><a href="javascript:void(0);" class="menu-item-default">提现管理</a></li> -->
+							<li class="menu-item"><a href="friendLinks.html" class="menu-item-default">Links</a></li>
+							<li class="menu-item"><a href="blackList.html" class="menu-item-default">IP Black List</a></li>
+							<li class="menu-item"><a href="adminMng.html" class="menu-item-select">Admin Registration</a></li>
+						</ul>
+					</li>
+				</ul>
+			</div>
+
+			<div class="main-page">
+				<div class="title-box">
+					<div class="title-wrapper">
+						<span class="title-word">Account Setting</span>
+					</div>
+				</div>
+
+				<div class="account-wrapper">
+					<div class="middle-wrapper">
+						<div class="every-line">
+							<div class="pre-label">Author user name</div>
+							<div class="info-words">{{userInfo.nickname}}</div>
+						</div>
+						<div class="every-line">
+							<div class="pre-label">Author profile</div>
+							<div class="info-face">
+								<div class="choose-face-wrapper">
+									<img id="user-face" :src="userInfo.face" class="user-face"/>
+								</div>
+							</div>
+						</div>
+						<div class="every-line">
+							<div class="pre-label">Author name</div>
+							<div class="info-words">{{userInfo.realname}}</div>
+						</div>
+						<div class="every-line">
+							<div class="pre-label">City</div>
+							<div class="info-words">{{userInfo.province}}&nbsp;{{userInfo.city}}&nbsp;{{userInfo.district}}</div>
+						</div>
+						<div class="every-line">
+							<div class="pre-label">Birth Day</div>
+							<div class="info-words">{{formatData(userInfo.birthday)}}</div>
+						</div>
+						<div class="every-line">
+							<div class="pre-label">Gender</div>
+							<div class="info-words">{{userInfo.sex == 1 ? '男' : '女'}}</div>
+						</div>
+						<div class="every-line">
+							<div class="pre-label">Mobile phone</div>
+							<div class="info-words">{{userInfo.mobile}}</div>
+						</div>
+						<div class="every-line">
+							<div class="pre-label">Email</div>
+							<div class="info-words">{{userInfo.email}}</div>
+						</div>
+						<div class="every-line">
+							<div class="pre-label">Account Status</div>
+							<div class="info-words">{{getStatus(userInfo.activeStatus)}}</div>
+						</div>
+					</div>
+					<div class="submit-wrapper">
+						<span v-if="userInfo.activeStatus ==1">
+							<button class="submit-btn" @click="freezeUser">Pause Account</button>
+						</span>
+						<span v-if="userInfo.activeStatus ==2">
+							<button class="submit-btn" @click="unFreezeUser">Resume Account</button>
+						</span>
+					</div>
+				</div>
+
+
+
+			</div>
+
+		</div>
+	</div>
+
+	<!-- footer -->
+	<div class="footer">
+		<div class="all-words-wrapper">
+			<a class="footer-link" href="https://www.google.com" target="_blank">footer link</a>
+			<span class="dian">·</span>
+			<a class="footer-link" href="https://www.google.com" target="_blank">footer link</a>
+
+			<span class="dian" style="font-size: 12px; margin-left: 20px;">Copyright © 2021 Ty</span>
+		</div>
+	</div>
+</body>
+
+<script src="libs/vue.min.js"></script>
+<script src="libs/axios.min.js"></script>
+<script src="libs/jquery-1.7.2.min.js"></script>
+<script src="libs/layDate-v5.0.9/laydate/laydate.js"></script>
+<script src="libs/city-picker/dist/js/city-picker.data.js"></script>
+<script src="libs/city-picker/dist/js/city-picker.js"></script>
+<script src="js/app.js"></script>
+<script src="libs/moment-with-locales.min.js"></script>
+
+<script type="text/javascript">
+
+	var mainPage = new Vue({
+		el: "#mainPage",
+		data: {
+			adminUserLogin: {
+				adminId: "",
+				adminName: "",
+				adminToken: ""
+			},
+
+			pendingUserId: "",
+			userInfo: {}
+		},
+		mounted() {
+		},
+		created() {
+			// 判断管理员是否登录
+			app.judgeAdminLogin(this);
+
+			// 获得用户信息
+			var userId = app.getUrlParam("userId");
+			this.pendingUserId = userId;
+			this.getUserInfo(userId);
+		},
+		methods: {
+			// 管理员注销，退出登录
+			doLogout() {
+				app.doAdminLogout();
+			},
+			// 获得用户信息
+			getUserInfo(userId) {
+				var me = this;
+
+				var atoken = app.getCookie("atoken");
+				var aid = app.getCookie("aid");
+
+				var userServerUrl = app.userServerUrl;
+				axios.defaults.withCredentials = true;
+				axios.post(userServerUrl + "/appUser/userDetail?userId=" + userId,
+				{},
+				{
+					headers: {
+						'adminUserId': aid,
+						'adminUserToken': atoken
+					}
+				})
+				.then(res => {
+					// console.log(JSON.stringify(res.data));
+
+					if (res.data.status == 200) {
+						var userInfo = res.data.data;
+						console.log(userInfo);
+						this.userInfo = userInfo;
+					} else {
+						alert(res.data.msg);
+					}
+				});
+			},
+			// 冻结用户
+			freezeUser() {
+				this.display(2)
+			},
+			// 解除冻结状态
+			unFreezeUser() {
+				this.display(1)
+			},
+			display(status) {
+				var me = this;
+
+				var atoken = app.getCookie("atoken");
+				var aid = app.getCookie("aid");
+
+				var userId = me.pendingUserId;
+
+				var userServerUrl = app.userServerUrl;
+				axios.defaults.withCredentials = true;
+				axios.post(userServerUrl + "/appUser/freezeUserOrNot?userId=" + userId + "&doStatus=" + status,
+				{},
+				{
+					headers: {
+						'adminUserId': aid,
+						'adminUserToken': atoken
+					}
+				})
+				.then(res => {
+					console.log(JSON.stringify(res.data));
+
+					if (res.data.status == 200) {
+						alert("Successes！");
+						window.location = window.location;
+					} else {
+						alert(res.data.msg);
+					}
+				});
+			},
+			// 获得用户状态
+			getStatus(status) {
+				if (status === 0) {
+					return "Inactive";
+				} else if (status === 1) {
+					return "Activated";
+				} else if (status === 2) {
+					return "Paused";
+				}
+				return "";
+			},
+			// 格式化日期
+			formatData(times) {
+				var date = moment(times).format('DD/MM/YYYY');
+				return date;
+			},
+			// 前往首页
+			goIndex() {
+				window.location = app.portalIndexUrl;
+			}
+		}
+	});
+
+</script>
+
+</html>

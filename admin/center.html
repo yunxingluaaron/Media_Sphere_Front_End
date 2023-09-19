@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+	<meta name="viewport" content="width=device-width, initial-scale=1.0,maximum-scale=1.0, user-scalable=0">
+
+	<link rel="stylesheet" href="css/center.css">
+	<link rel="stylesheet" href="css/menu.css">
+
+	<style type="text/css">
+	</style>
+
+	<link rel="shortcut icon" href="img/mu-toutiao.ico" />
+
+	<title>iNews | Operation Management Portal</title>
+</head>
+
+<body>
+	<div class="mybody">
+		<!-- 顶部头 -->
+		<div id="whiteHeader" class="white-header">
+			<div class="head_wrapper">
+				<img src="./img/imooc-news-logo.png" class="center-logo"/>
+
+				<div class="right-me-info">
+					<img src="./img/face1.png" class="me-face"/>
+					<span class="me-nickname">User Name</span>
+				</div>
+			</div>
+		</div>
+
+		<!-- 页面容器 -->
+		<div class="container">
+
+			<div id="all-menus" class="all-menus">
+				<ul class="menu-list shadow">
+					<li class="">
+						<div class="menu-title-wrapper">
+							<img src="img/admin-ico.png" class="word-ico"/>
+							<div class="menu-title">Admin Menu</div>
+						</div>
+						<ul style="margin-top: 5px;">
+							<li class="menu-item"><a href="contentReview.html" class="menu-item-default">Content Review</a></li>
+							<li class="menu-item"><a href="userList.html" class="menu-item-default">User Management</a></li>
+							<li class="menu-item"><a href="categoryMng.html" class="menu-item-default">Article Categories</a></li>
+							<!-- <li class="menu-item"><a href="javascript:void(0);" class="menu-item-default">提现管理</a></li> -->
+							<li class="menu-item"><a href="friendLinks.html" class="menu-item-default">Links</a></li>
+							<li class="menu-item"><a href="blackList.html" class="menu-item-default">IP Black List</a></li>
+							<li class="menu-item"><a href="adminMng.html" class="menu-item-select">Admin Registration</a></li>
+						</ul>
+					</li>
+				</ul>
+			</div>
+
+			<div id="mainPage" class="main-page">
+
+			</div>
+
+		</div>
+	</div>
+
+	<div class="footer">
+		<div class="all-words-wrapper">
+			<a class="footer-link" href="https://www.google.com" target="_blank">footer link</a>
+			<span class="dian">·</span>
+			<a class="footer-link" href="https://www.google.com" target="_blank">footer link</a>
+
+			<span class="dian" style="font-size: 12px; margin-left: 20px;">Copyright © 2021 Ty</span>
+		</div>
+	</div>
+
+</body>
+
+<script src="libs/vue.min.js"></script>
+<script src="libs/axios.min.js"></script>
+<script src="libs/jquery-1.7.2.min.js"></script>
+
+<script type="text/javascript">
+
+	var articleList = new Vue({
+		el: "#articleList",
+		data: {
+			indexMsg: "Article List"
+		},
+		created() {
+
+		},
+		methods: {
+
+		}
+	});
+
+	var articleCategory = new Vue({
+		el: "#articleCategory",
+		data: {
+		},
+		created() {
+
+		},
+		methods: {
+
+		}
+	});
+</script>
+
+</html>
