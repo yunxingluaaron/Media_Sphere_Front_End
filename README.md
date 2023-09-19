@@ -1,1 +1,1 @@
-# News Portal Frontend
+# Media Sphere Frontend
